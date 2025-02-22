@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games World</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 15px 0;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 18px;
+            color: black;
+        }
+
+        a:hover {
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Jogos Mobile</h1>
+
+    <form>
+        <input type="text" id="search" placeholder="Pesquise um jogo..." onkeyup="searchGames()">
+    </form>
+
+    <ul id="gameList">
+        <li><a href="https://www.mediafire.com/file/vz11xiem3908yj5/ArkMobile.zip/file" target="_blank"> Ark Survival Mobile</a></li>
+        <li><a href="https://www.mediafire.com/download/0j2hmyq7hgb2uqn" target="_blank">Bully Anniversary Edition</a></li>
+        <li><a href="https://www.mediafire.com/file/ztp9vi4gndjmv4r/CUPHEAD_DELUXE_EDITION_BY_CAGYPLAYS.rar/file" target="_blank"> Cuphead Deluxe Mobile</a></li>
+        <li><a href="https://www.mediafire.com/file/c8zrczplc3gxfg5/FR+Legends+mod+apk+atualizado.apk/file?dkey=uiacqy9fi3x&r=923" target="_blank">Fr Legends</a></li>
+        <li><a href="https://www.mediafire.com/file/z14msdazeq26kwq/%25F0%259F%2587%25A7%25F0%259F%2587%25B7%25F0%259F%2594%25A5Bloons-td-6_na_Vers%25C3%25A3o_47.0_Atualizado_%255BBY_CLZINZX%255D.apk/file?dkey=z14msdazeq26kwq" target="_blank">Bloons TD6</a></li>
+        <li><a href="https://www.mediafire.com/file/huln2xzly8ucl59/MINECRAFT+1.21.60+OFICIAL+By-GT.apk/file" target="_blank">Minecraft 1.21.60</a></li>
+        <li><a href="https://www.mediafire.com/file/jo1afe7lcva9vce/Retail_V6.0_ModBR_%2528WhiteVersion%2529.apk/file" target="_blank">Retail Store (Mod BR)</a></li>
+        <li><a href="https://www.mediafire.com/file/vdrn6u2r0qqmplu/FNaF+2+Remastered+Dublado+v2.0.3+by+hopkins.apk/file?dkey=dl8g2m37jxb&r=1184&dkey=vdrn6u2r0qqmplu" target="_blank">Fnaf 2 Dublado</a></li>
+        <li><a href="https://www.mediafire.com/file/fvho6qy7tbjat9x/FNaF_3_Remastered_Dublado_by_GAMER26083.apk/file?dkey=zqzq2ipqon4&r=935" target="_blank">Fnaf 3 Dublado</a></li>
+        <li><a href="https://www.mediafire.com/file/qgwyulx91dyt6ww/Five_Nights_at_Freddy%2527s_4_v2.0.apk/file?dkey=sj841he24vc&r=772" target="_blank">Fnaf 4 Dublado</a></li>
+        <li><a href="https://www.mediafire.com/file/157o4xe4isquf78/Fnaf_SL_Dublado.apk/file" target="_blank">Fnaf Sister Location Dublado</a></li>
+        <li><a href"https://www.mediafire.com/file/u6zdjgv4d1sg2bm/FNaF+6%3B+%28Dublado%29+Dubbing+Night.apk/file" target="_blank">Fnaf Pizzaria Simulator Dublado</a></li>
+        <li><a href="https://www.mediafire.com/file/1wphmpfhcm0f2vu/stardew+valley+mobile.apk/file?dkey=lek65x5g6qv&r=530" target="_blank">Stardew Valley Mobile</a></li>
+        <li><a href="https://www.mediafire.com/file/n60zqyyixthzm1f/Five-Nights-at-Freddys-v2-0-2.apk/file" target="_blank">Fnaf 1</a></li>
+        <li><a href="https://www.mediafire.com/file/isq8ai07rkuyaeb/Hollow_knight.apk/file" target="_blank">Hollow Knight Mobile</a></li>
+        <li><a href="https://www.mediafire.com/file/mck6ggybc9ccn52/TERRARIA+@math.zip/file" target="_blank">Terraria Mobile</a></li>
+        <li><a href="https://www.mediafire.com/file/moli34gl0agokn2/Undertale+Pt-Br+Mobile.zip/file" target="_blank">Undertale Mobile</a></a></li>
+        <li><a href="https://www.mediafire.com/file/0aipds6oxnbc5q7/LEGO_Batman_Beyond_Gotham_ByHT.zip/file" target="_blank">Lego Batman Beyond Gotham</a></li>
+        <li><a href="https://www.mediafire.com/file/z69zkfjy154kezl/Dead_Cells_3.3.15_.apk/file" target="_blank">Dead Cells 3</a></li>
+        <li><a hreg="https://www.mediafire.com/download/iawl50ltzpr35nx?dkey=w9h4ds6i2uy&r=1124" target="_blank">Doki Doki Literature Club</a></li>
+        
+    </ul>
+
+    <script>
+        function searchGames() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('search');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("gameList");
+            li = ul.getElementsByTagName('li');
+            
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+<div class="contact">
+    <h6>Se você gostaria de sugerir mais jogos, entre em contato comigo:
+    suppordevworldgames@gmail.com</h6>
+</div>
+
+</body>
+</html>
