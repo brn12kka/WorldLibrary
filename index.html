@@ -1,210 +1,382 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="https://cdn.discordapp.com/attachments/1300439970238038068/1345510172851703918/pngtree-a-book-png-image_9043514.png?ex=67c4cf7f&is=67c37dff&hm=55696a80882cb3561d0fae89a9acf73222e7f7096824de9bf45d1ddeb0e56c4e&" type="image/x-icon">
-    <title>Games World</title>
-    <style>
-        body {
-            background-color: black;
-            color:white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
+  <meta charset="UTF-8">
+  <title>World Library</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/3330/3330314.png" type="image/x-icon">
+  <style>
+    :root {
+      --bg-color: #000;
+      --text-color: #fff;
+      --header-bg: #111;
+      --button-bg: #222;
+      --button-hover: #333;
+      --item-bg: #111;
+      --input-bg: #222;
+      --placeholder-color: #aaa;
+      --transition: 0.3s;
+    }
 
-        h1 {
-            font-size: 2em;
-        }
+    body.light {
+      --bg-color: #f0f0f0;
+      --text-color: #000;
+      --header-bg: #ddd;
+      --button-bg: #ccc;
+      --button-hover: #bbb;
+      --item-bg: #fff;
+      --input-bg: #eee;
+      --placeholder-color: #444;
+    }
 
-        input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            font-size: 16px;
-            margin-top: 20px;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      transition: background-color var(--transition), color var(--transition);
+    }
 
-        ul {
-            list-style-type: none;
-            padding: 0;ü
-        }
+    header {
+      background-color: var(--header-bg);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-        li {
-            margin: 15px 0;
-        }
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
 
-        a {
-            text-decoration: none;
-            font-size: 18px;
-            color: gray;
-        }
+    .tema-container {
+      display: flex;
+      align-items: center;
+    }
 
-        a:hover {
-            color: grey;
-        }
-    </style>
+    .tema-label {
+      font-size: 16px;
+      margin-right: 8px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #444;
+      transition: var(--transition);
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: var(--transition);
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(30px);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 20px;
+      gap: 15px;
+    }
+
+    nav button {
+      padding: 14px 28px;
+      background-color: var(--button-bg);
+      color: var(--text-color);
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color var(--transition), transform var(--transition);
+    }
+
+    nav button:hover {
+      background-color: var(--button-hover);
+      transform: scale(1.05);
+    }
+
+    .secao {
+      display: none;
+      padding: 20px;
+    }
+
+    .ativo {
+      display: block;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--input-bg);
+      color: var(--text-color);
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--placeholder-color);
+    }
+
+    .item {
+      background-color: var(--item-bg);
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 5px;
+      max-width: 400px;
+      text-align: left;
+      font-size: 16px;
+    }
+
+    .item a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+      background-color: var(--header-bg);
+      color: var(--text-color);
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>World Library</h1>
+    <div class="tema-container">
+      <label id="temaLabel" class="tema-label">Tema 🌙</label>
+      <label class="switch">
+        <input type="checkbox" id="temaCheckbox" onchange="trocarTema()">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </header>
 
-    <h1>JOGOS MOBILE</h1>
+  <nav>
+    <button onclick="mostrar('jogos')">🎮 Jogos</button>
+    <button onclick="mostrar('pdfs')">📚 PDFs</button>
+    <button onclick="mostrar('apps')">📱 APPs</button>
+  </nav>
 
-    <form>
-        <input type="text" id="search" placeholder="Pesquise um jogo..." onkeyup="searchGames()">
-    </form>
+  <section id="jogos" class="secao">
+    <h2>Jogos</h2>
+    <input type="text" placeholder="Pesquisar jogos..." onkeyup="filtrar('jogos')">
+    <div class="item"><a href="https://www.mediafire.com/file/vz11xiem3908yj5/ArkMobile.zip/file" target="_blank">Ark Survival</a></div>
+    <div class="item"><a href="https://www.mediafire.com/download/0j2hmyq7hgb2uqn" target="_blank">Bully Anniversary Edition</a></div>
+    <div class="item"><a href="https://www.mediafire.com/file/ztp9vi4gndjmv4r/CUPHEAD_DELUXE_EDITION_BY_CAGYPLAYS.rar/file" target="_blank">Cuphead Deluxe</a></div>
+    <div class="item"><a href="https://www.mediafire.com/file/c8zrczplc3gxfg5/FR+Legends+mod+apk+atualizado.apk/file?dkey=uiacqy9fi3x&r=923" target="_blank">Fr Legends</a></div>
+    <div class="item"><a href="https://www.mediafire.com/file/z14msdazeq26kwq/%25F0%259F%2587%25A7%25F0%259F%2587%25B7%25F0%259F%2594%25A5Bloons-td-6_na_Vers%25C3%25A3o_47.0_Atualizado_%255BBY_CLZINZX%255D.apk/file?dkey=z14msdazeq26kwq" target="_blank">Bloons TD6</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/huln2xzly8ucl59/MINECRAFT+1.21.60+OFICIAL+By-GT.apk/file" target="_blank">Minecraft 1.21.60</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/jo1afe7lcva9vce/Retail_V6.0_ModBR_%2528WhiteVersion%2529.apk/file" target="_blank">Retail Store (Mod BR)</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/n60zqyyixthzm1f/Five-Nights-at-Freddys-v2-0-2.apk/file" target="_blank">Fnaf 1</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/vdrn6u2r0qqmplu/FNaF+2+Remastered+Dublado+v2.0.3+by+hopkins.apk/file?dkey=dl8g2m37jxb&r=1184&dkey=vdrn6u2r0qqmplu" target="_blank">Fnaf 2</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/fvho6qy7tbjat9x/FNaF_3_Remastered_Dublado_by_GAMER26083.apk/file?dkey=zqzq2ipqon4&r=935" target="_blank">Fnaf 3</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/qgwyulx91dyt6ww/Five_Nights_at_Freddy%2527s_4_v2.0.apk/file?dkey=sj841he24vc&r=772" target="_blank">Fnaf 4</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/157o4xe4isquf78/Fnaf_SL_Dublado.apk/file" target="_blank">Fnaf Sister Location</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/u6zdjgv4d1sg2bm/FNaF+6%3B+%28Dublado%29+Dubbing+Night.apk/file" target="_blank">Fnaf Pizzaria Simulator</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/1wphmpfhcm0f2vu/stardew+valley+mobile.apk/file?dkey=lek65x5g6qv&r=530" target="_blank">Stardew Valley</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/isq8ai07rkuyaeb/Hollow_knight.apk/file" target="_blank">Hollow Knight</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/mck6ggybc9ccn52/TERRARIA+@math.zip/file" target="_blank">Terraria</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/moli34gl0agokn2/Undertale+Pt-Br+Mobile.zip/file" target="_blank">Undertale</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/0aipds6oxnbc5q7/LEGO_Batman_Beyond_Gotham_ByHT.zip/file" target="_blank">Lego Batman Beyond Gotham</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/z69zkfjy154kezl/Dead_Cells_3.3.15_.apk/file" target="_blank">Dead Cells 3</a></div>
+  <div class="item"><a href="https://www.mediafire.com/download/iawl50ltzpr35nx?dkey=w9h4ds6i2uy&r=1124" target="_blank">Doki Doki Literature Club</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/hh3rr8j833epnv0/Pojav+Launcher.xapk/file" target="_blank">Pojav Launcher</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/459id4n3ajy613a/GTA+San+Andreas+(APK+++DATA+++OBB).zip/file" target="_blank">GTA San Andreas</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/5o509jq2haof9eq/Carrion+v1.0.34+[IMPERADOR].apk/file" target="_blank">Carrion</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/bnb1bpdk5rlzndu/The_Longing_v1.10_by_Prometia.apk/file" target="_blank">The Longing</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/mzqdxdhrhdjehwj/Unpacking.apk/file" target="_blank">Unpacking</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/cqmlk5rq12ohm6i/subway-surfers-v1.99.0-mod-1.apk/file" target="_blank">Subway Surfers 1.99</a></div>
+  <div class="item"><a href="https://www.mediafire.com/download/m7wasjz2xb6pii5" target="_blank">Distraint Deluxe Edition</a></div>
+  <div class="item"><a href="https://www.mediafire.com/download/gxuk4mu4lccic86?dkey=4weha2877cf&r=198" target="_blank">Hello Neighbor 1</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/50q4kermqj2oim2/My_Child_Lebensborn_Mod_V2.0.103.apk/file" target="_blank">My Child Lebensborn (MOD)</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/objml7uybh37z9j/Limbo_vers%25C3%25A3o_1.20.apk/file" target="_blank">Limbo</a></div>
+  <div class="item"><a href="https://www.mediafire.com/file/yxlnopp8rxxmome/TWD+S1+APK+OBB+ADRENO+PT-BR+GAMES+INTERACTIVE+06-2024.7z/file" target="_blank">TWD Season One PT-BR GPU Adreno</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/pxccpqaegfinfjl/GTA_VC_APK%252BOBB%252BDATA_PT-BR_ByHT.rar/file?dkey=lbdf8xwl8qe&r=891" target="_blank">GTA Vice City</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/nc3dr80rfiwy9ex" target="_blank">GTA 3</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/4wd213l9heq809k/Blasphemous_Dublado.apk/file?dkey=vr1ftnb9jub&r=88&dkey=4wd213l9heq809k" target="_blank">Blasphemous Dublado</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/blo5lu7m06ro3b5/GTA_CW_v1.04%28apk+obb%29.zip/file" target="_blank">GTA Chinatown Wars</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/soh1yqdn815l9vk/The_Coffin_Of_Andy_And_Leyley_MOBILE.zip/file" target="_blank">The Coffin Of Andy And Leyley</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/3vnfpf2mb0516gz/Five_Night_At_Freddy%2527s_Into_The_pit_mod.apk/file" target="_blank">Fnaf Into The Pit</a></div>
+<div class="item"><a href="https://www.mediafire.com/download/r54gqyb16ceuz6z" target="_blank">Max Payne 2</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/zqmoqlpfgllrldq/Path+of+the+Teal+Lotus+mobile.7z/file" target="_blank">Path of the Teal Lotus</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/valik38q7g8vlmb/OMORI-br-1.0.8.1.apk/file" target="_blank">Omori</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/3wpb4bzkmyaiadg/DontStarve_1.19.15.apk/file" target="_blank">Dont Starve</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/d2w5oddnp4ryci2/Life_is_Strange%2528Unlocked%2529.zip/file" target="_blank">Life is Strange</a></div>
+<div class="item"><a href="https://www.mediafire.com/download/0k10b2fxgucjpy6" target="_blank">The Amazing Spider Man 2</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/k6eqxureiq38qfi/Spidey-Hub_No+Cheat.apk/file?dkey=umi7t0fy63a&r=295" target="_blank">Spider Man Gameloft</a></div>
+<div class="item"><a href="https://www.mediafire.com/download/p9al042c949ayau" target="_blank">Iron Man 3 Gameloft</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/ww214s57immgmbr/TDKR-v1.1.6-MAX+GFX-Ultra+Widescreen+Bem+vindo+ao+futuro+%2860FPS%29.apk" target="_blank">Batman Cavaleiro das Trevas</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/erbqov1bldeo6ot" target="_blank">GTA Liberty City Stories</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/78m5jcpbk9zj3ld/Geometry-Dash-GamerShow-BR[v2.207].apk/file" target="_blank">Geometric Dash Completo</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/88696x1rv5291ty/Football_Simulator_De_Arbitro_v2.55.apk/file" target="_blank">Referee Simulator</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/pbqcudodtk53wmh/lego-jurassic-world.apk/file" target="_blank">Lego Jurassic World</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/h6cobaoje2es8lr/Friday+Night+Funkin.apk/file" target="_blank">Friday Night Funkin</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/xcios6v40zveqit/The+Escapists+[PT-BR].apk/file" target="_blank">The Escapists</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/q1pb6xs3rljk63g/NARUTO+Ultimate+Ninja+STORM.apk/file" target="_blank">Naruto Ultimate Ninja Storm</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/35py3t7y5eg7mes/LEGO-MARVEL-Super-Heroes.apk/file" target="_blank">Lego Marvel Super Heroes</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/z292p1gi7t2gm2k/Resident+Evil+4.apk/file" target="_blank">Resident Evil 4</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/m258bbpruhkeq43/Teen_titans_go_2.zip/file" target="_blank">Jovens Titãs Go!</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/9zrepkxhath31t1/HALF_LIFE_2_APK%2BDATA_PT-BR.zip/file" target="_blank">Half Life 2</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/k7bczudzcqcbz93/Pascals_Wagner_Mod_1.6.7.apk/file" target="_blank">Pascal Wagner</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/bqwqjuiychqt97d/Supertype-2.052.05-GamerShowBR.apk/file" target="_blank">SuperType</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/mm1d9ai1vnk7gyw/PoppyMobile-v1.0.8_By_Fox_Signer.apk/file" target="_blank">Poppy Playtime 1</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/qh6y2umgrnr1y73/poppy-playtime-chapter-2_1.2-foxsigner.apk/file" target="_blank">Poppy Playtime 2</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/u5qjhdn8lgwumne/Poppy_Playtime_Chapter_3_GamerShowBR.apk/file" target="_blank">Poppy Playtime 3</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/9tjnrwyzxpjg094/?dkey=9tjnrwyzxpjg094" target="_blank">Sonic Unleashed</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/n71y88wi4wnf7o5/little-nightmares-v112.apk/file" target="_blank">Little Nightmares</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/bf2oisd76s1q8lc/GTA+San+Andreas+The+Definitive+Edition+-+SEM+NETFLIX.apks/file" target="_blank">GTA SA Definitive Edition</a></div>
+<div class="item"><a href="https://www.mediafire.com/file_premium/h4h884ffkuystye/GTA-VC-DE-1.83.44255649-full-apkvision.apk/file" target="_blank">GTA VC Definitive Edition</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/1ead29kxao2qk1f/GTA+3+DE+BY+STRANGE+MODS.zip/file" target="_blank">GTA 3 Definitive Edition</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/x6uvsamtwtubmg4/PPSSPP-Gold_v1.18.1.apk/file" target="_blank">PPSSPP GOLD</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/ncdrmzd6228ttdv/GTA_Vice_City_Stories_ptbr.rar/file" target="_blank">GTA VC Stories (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/3zmspqbr2l01j5r/Kingdom-Two-Crowns_by_GamerShow.apk/file" target="_blank">Kingdom Two Crowns</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/7hwnq3iwruyz768/PapersPlease.GamerShowBR.apk/file" target="_blank">Papers, Please</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/4tr6ysihp2mam4e/Skullgirls_GamerShow_BR.apk/file" target="_blank">Skullgirls</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/npwoiwctuchyheo/Grid+Autosport+Editionv1.10.2+GamerShowBR.xapk/file" target="_blank">Grid Autosport Edition</a></div>
+<div class="item"><a href="https://www.mediafire.com/download/4vo1bhehsa0449q%7C%7C" target="_blank">Pabllo Vittar Forest of Horror</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/vjdpa0ptjru3uvq/ProjetoReloAndroid_030322.apk/file" target="_blank">Projeto Relo Android</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/k5zcbdif607x6kx/Skul+The+Hero+Slayer_1.0.0_Apkhihe.net.apk/file" target="_blank">Skul The Hero Slayer</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/vl5e90tid4lxmrz/Goat_Simulator_GamerShow_BR.apk/file" target="_blank">Goat Simulator</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/a0gav0z44v4vdco/Bendy_and_the_Ink_Machine_BY_GamerShow.rar/file" target="_blank">Bendy And The Ink Machine</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/cpvvwuo7sos4urj/Good+Pizza,+Great+Pizza+v.5.9.0+By+GamerShow.rar/file" target="_blank">Good Pizza, Great Pizza</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/gygqtfvmlya6xki/SLAY-THE-SPIRE-APK-2.38-ANDROPALACE.ORG.apk/file" target="_blank">Slay The Spire</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/zx4mah3vh6wpa7z/Aethersx2+BIOS.zip/file" target="_blank">Aethersx2 + BIOS</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/fd0lr6vuo2mo7jr/BOMBA+MIX+ITAQUI-RS+MUNDIAL+DE+CLUBES+2025+CORRECAO.rar/file" target="_blank">Bomba Patch 2025 (Aethersx2)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/i3mgqytybdf7t3x/BLACK_PTBR.rar/file" target="blank">Black PT-BR (Aethersx2)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/pbbv42novqnmb5n/eFootBall+25+Guh7Psp+FL+Link+Godcardoso.7z/file" target="_blank">Efootball 2025 (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/sz1ej6bzsk8o9rk/L3g0B4Tptbrpsp.rar/file" target="_blank">Lego Batman The Videogame (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/bav19w0hxmig3a6/Kingdom+&+Lords.zip/file" target="_blank">Kingdom & Lords (Orginal e MOD)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/pefnapqbkghnsgm/Patch_1.21.62__%252832-BITS%2529.apk/file" target="_blank">Minecraft Patched 1.21.62 (32 bits)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/k4odsny8k7onbeg/Patch_1.21.62__%252864-BITS%2529.apk/file" target="_blank">Minecraft Patched 1.21.62 (64 bits)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/oukg5iqx2ua0w39/Zombie+Nigth+Terror.zip/file" target="_blank">Zombie Night Terror</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/6uofyzgl2lcsi1n/ZArchiver_Pro.apk/file?dkey=ja7oti3804f&r=1542&dkey=6uofyzgl2lcsi1n" target="_blank">ZArchiver Pro</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/qvlnekglsvfepr3/Youtubers_Life_OMG.zip/file" target="_blank">Youtubers Life</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/wh93xwj79sxxt0q/Youtubers+Life+2+v1.3.3+[VENF+DROID].apk/file" target="_blank">Youtubers Life 2</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/s5wnjgf1cvrili0/GRIS-APK+DATA-1.0.0.rar/file" target="_blank">Gris</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/scacgow7sor6rg8/PSPG0WGHSTDUBPTBR.rar/file" target="_blank">God Of War Ghost of sparta (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/eb55gsyf8zq0u5x/g0wc0optbrpsp.rar/file" target="_blank">God of War Chains Of Olympus (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/97ktu722hv3y4r3/FIFA_VOLTA_2022_PPSSPP_%2528_LINK_GILA_GAME_%2529.rar/file?dkey=odii6w4v2qy&r=1349#" target="_blank">FIFA Street 2 (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/r8m8dsnu47bhdbc/Supermarket+Simulator+v1.0.16+Odranoel.apk/file?dkey=zsiwppzxnsi&r=133" target="_blank">Supermarkt Simulator (MOD)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/oq2rfdt8zlvekc5/BEN10_PROTETOR_DA_TERRA_DUBLADO_PSP.rar/file" target="_blank">Ben 10 Protector Of Earth Dublado (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/5k5t1spojf7prx9/BEN_10_ULTIMATE_ALIEN_COSMIC_DESTRUCTION_BY_MMGAMER7755.7z/file" target="_blank">Ben 10 Ultimate Alien Cosmic (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/0ajeo1gcmfmtwgy/Ben+10+Vilgax+Attack.7z/file" target="_blank">Ben 10 Vilgax Attack (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/w2wjm3p4fvuoizl/Bluecord_2.3.apk/file" target="_blank">Bluecord 2.3</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/r74ael6d1wor4g4/Minecraft_1.14.60_xbox.apk/file?dkey=r74ael6d1wor4g4" target="_blank">Minecraft 1.14</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/tnov6zp0wuad3dg/MCPE_1.16.100.57_PARSE_ERROR_FIXED_BY_The_gamer_Tap.apk/file" target="_blank">Minecraft 1.16</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/ols2g774n9p8dvm/Cosmic-Shake-v1-1-0by+GamerShow+BR.apk/file" target="_blank">Bob Esponja Cosmic Shake</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/4ogozw0llvbcs4q/Strawberry+Berry+Rush+unlimited.apk/file" target="_blank">Moranguinho: Berry Rush (MOD)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/z2ykmuwhzzqcdzg/Bird_Alone_GamerShow_BR.apk/file" target="_blank">Bird Alone</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/bafkcjgt1qyfdgm/Stay+Out+of+the+House+GamerShowBR.apk.crdownload/file" target="_blank">Stay Out Of The House</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/4otl3bfwsr7ckoe/Potion-Permit-v1.46-GamerShow-BR.apk/file" target="_blank">Potion Permit</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/ygjjlvy272kqb2m/Survivalcraft+2+2.3.10.0+by+GamerShow+BR.apk/file" target="_blank">SurvivalCraft 2</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/n8k946rmpx6qevy/HumanFallFlat-v1.14+GamerShowBR.apk/file" target="_blank">Human Fall Flat</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/9feurqfaifek0f2/To_The_Moon_By_GamerShow.rar/file" target="_blank">To The Moon</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/s5iuyt6qemdwf06/60_seconds_mobile_GamerShow/file" target="_blank">60 Seconds</a></div>
+<div class="item"><a href="https://www.mediafire.com/file_premium/pbo5d98c9i54fk2/s3mp.apk/file" target="_blank">Slendytubbies 3 Multiplayer</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/jnl6n124b97h7sa/Slendytubbies_3_V1_295_%2832bit%29.zip/file" target="_blank">Slendytubbies 3 (32 bits)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/249yxzi56wn17r6/Slendytubbies_3_V1_295_%252864bit%2529.zip/file" target="_blank">Slendytubbies 3 (64 bits)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/kgcrqf1q1l9onrg/Littlest+Pet+Shop.apk/file" target="_blank">Littlest Pet Shop (MOD)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/oo8cl0u9igwggkg/angry-birds-rio-2-6-13.apk/file" target="_blank">Angry Birds Rio</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/xtz2a3mhxg5q9t7/sonic-exe.apk/file" target="_blank">Sonic exe</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/5rnqo9ke6qzj64m/Wonder_Zoo_%2528MOD_%2526_ORIGINAL%2529.7z/file" target="_blank">Wonder Zoo (MOD & ORIGINAL)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/2d7ptvf69u19vc5/Little+Big+City+(MOD+&+ORIGINAL).7z/file" target="_blank">Little Big City (MOD & ORIGINAL)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/sy83knmj9zvydfk/A1-2_%255BEsp_-_ISO%255D.rar/file" target="_blank">Assassin's Creed Bloodlines PT-BR (PPSSPP)</a></div>
+<div class="item"><a href="https://www.mediafire.com/file/fm1913uece1c9yy/Minecraft+1.19.81.apk/file" target="_blank">Minecraft 1.19.81</a></div>
+</section>
 
-    <ul id="gameList">
-        <li><a href="https://www.mediafire.com/file/vz11xiem3908yj5/ArkMobile.zip/file" target="_blank"> Ark Survival</a></li>
-        <li><a href="https://www.mediafire.com/download/0j2hmyq7hgb2uqn" target="_blank">Bully Anniversary Edition</a></li>
-        <li><a href="https://www.mediafire.com/file/ztp9vi4gndjmv4r/CUPHEAD_DELUXE_EDITION_BY_CAGYPLAYS.rar/file" target="_blank"> Cuphead Deluxe</a></li>
-        <li><a href="https://www.mediafire.com/file/c8zrczplc3gxfg5/FR+Legends+mod+apk+atualizado.apk/file?dkey=uiacqy9fi3x&r=923" target="_blank">Fr Legends</a></li>
-        <li><a href="https://www.mediafire.com/file/z14msdazeq26kwq/%25F0%259F%2587%25A7%25F0%259F%2587%25B7%25F0%259F%2594%25A5Bloons-td-6_na_Vers%25C3%25A3o_47.0_Atualizado_%255BBY_CLZINZX%255D.apk/file?dkey=z14msdazeq26kwq" target="_blank">Bloons TD6</a></li>
-        <li><a href="https://www.mediafire.com/file/huln2xzly8ucl59/MINECRAFT+1.21.60+OFICIAL+By-GT.apk/file" target="_blank">Minecraft 1.21.60</a></li>
-        <li><a href="https://www.mediafire.com/file/jo1afe7lcva9vce/Retail_V6.0_ModBR_%2528WhiteVersion%2529.apk/file" target="_blank">Retail Store (Mod BR)</a></li>
-        <li><a href="https://www.mediafire.com/file/n60zqyyixthzm1f/Five-Nights-at-Freddys-v2-0-2.apk/file" target="_blank">Fnaf 1</a></li>
-        <li><a href="https://www.mediafire.com/file/vdrn6u2r0qqmplu/FNaF+2+Remastered+Dublado+v2.0.3+by+hopkins.apk/file?dkey=dl8g2m37jxb&r=1184&dkey=vdrn6u2r0qqmplu" target="_blank">Fnaf 2</a></li>
-        <li><a href="https://www.mediafire.com/file/fvho6qy7tbjat9x/FNaF_3_Remastered_Dublado_by_GAMER26083.apk/file?dkey=zqzq2ipqon4&r=935" target="_blank">Fnaf 3</a></li>
-        <li><a href="https://www.mediafire.com/file/qgwyulx91dyt6ww/Five_Nights_at_Freddy%2527s_4_v2.0.apk/file?dkey=sj841he24vc&r=772" target="_blank">Fnaf 4</a></li>
-        <li><a href="https://www.mediafire.com/file/157o4xe4isquf78/Fnaf_SL_Dublado.apk/file" target="_blank">Fnaf Sister Location</a></li>
-        <li><a href="https://www.mediafire.com/file/u6zdjgv4d1sg2bm/FNaF+6%3B+%28Dublado%29+Dubbing+Night.apk/file" target="_blank">Fnaf Pizzaria Simulator</a></li>
-        <li><a href="https://www.mediafire.com/file/1wphmpfhcm0f2vu/stardew+valley+mobile.apk/file?dkey=lek65x5g6qv&r=530" target="_blank">Stardew Valley</a></li>
-        <li><a href="https://www.mediafire.com/file/isq8ai07rkuyaeb/Hollow_knight.apk/file" target="_blank">Hollow Knight</a></li>
-        <li><a href="https://www.mediafire.com/file/mck6ggybc9ccn52/TERRARIA+@math.zip/file" target="_blank">Terraria</a></li>
-        <li><a href="https://www.mediafire.com/file/moli34gl0agokn2/Undertale+Pt-Br+Mobile.zip/file" target="_blank">Undertale</a></a></li>
-        <li><a href="https://www.mediafire.com/file/0aipds6oxnbc5q7/LEGO_Batman_Beyond_Gotham_ByHT.zip/file" target="_blank">Lego Batman Beyond Gotham</a></li>
-        <li><a href="https://www.mediafire.com/file/z69zkfjy154kezl/Dead_Cells_3.3.15_.apk/file" target="_blank">Dead Cells 3</a></li>
-        <li><a href="https://www.mediafire.com/download/iawl50ltzpr35nx?dkey=w9h4ds6i2uy&r=1124" target="_blank">Doki Doki Literature Club</a></li>
-        <li><a href="https://www.mediafire.com/file/hh3rr8j833epnv0/Pojav+Launcher.xapk/file" target="_blank">Pojav Launcher</a></li>
-        <li><a href="https://www.mediafire.com/file/459id4n3ajy613a/GTA+San+Andreas+(APK+++DATA+++OBB).zip/file" target="_blank">GTA San Andreas</a></li>
-        <li><a href="https://www.mediafire.com/file/5o509jq2haof9eq/Carrion+v1.0.34+[IMPERADOR].apk/file" target="_blank">Carrion</a></li>
-        <li><a href="https://www.mediafire.com/file/bnb1bpdk5rlzndu/The_Longing_v1.10_by_Prometia.apk/file" target="_blank">The Longing</a></li>
-        <li><a href="https://www.mediafire.com/file/mzqdxdhrhdjehwj/Unpacking.apk/file" target="_blank">Unpacking</a></li>
-        <li><a href="https://www.mediafire.com/file/cqmlk5rq12ohm6i/subway-surfers-v1.99.0-mod-1.apk/file" target="_blank">Subway Surfers 1.99</a></li>
-        <li><a href="https://www.mediafire.com/download/m7wasjz2xb6pii5" target="_blanl">Distraint Deluxe Editon</a></li>
-        <li><a href="https://www.mediafire.com/download/gxuk4mu4lccic86?dkey=4weha2877cf&r=198" target="_blank">Hello Neighbor 1</a></li>
-        <li><a href="https://www.mediafire.com/file/50q4kermqj2oim2/My_Child_Lebensborn_Mod_V2.0.103.apk/file" target="_blank">My Child Lebensborn (MOD)</a></li>
-        <li><a href="https://www.mediafire.com/file/objml7uybh37z9j/Limbo_vers%25C3%25A3o_1.20.apk/file" target="_blank">Limbo</a></li>
-        <li><a href="https://www.mediafire.com/file/yxlnopp8rxxmome/TWD+S1+APK+OBB+ADRENO+PT-BR+GAMES+INTERACTIVE+06-2024.7z/file" target="_blank">TWD Season One PT-BR GPU Adreno</a></li>
-        <li><a href="https://www.mediafire.com/file/pxccpqaegfinfjl/GTA_VC_APK%252BOBB%252BDATA_PT-BR_ByHT.rar/file?dkey=lbdf8xwl8qe&r=891" target="_blank">GTA Vice City</a></li>
-        <li><a href="https://www.mediafire.com/file/nc3dr80rfiwy9ex" target="_blank">GTA 3</a></li>
-        <li><a href="https://www.mediafire.com/file/4wd213l9heq809k/Blasphemous_Dublado.apk/file?dkey=vr1ftnb9jub&r=88&dkey=4wd213l9heq809k" target="_blank">Blasphemous Dublado</a></li>
-        <li><a href="https://www.mediafire.com/file/blo5lu7m06ro3b5/GTA_CW_v1.04%28apk+obb%29.zip/file" target="_blank">GTA Chinatown Wars</a></li>
-        <li><a href="https://www.mediafire.com/file/soh1yqdn815l9vk/The_Coffin_Of_Andy_And_Leyley_MOBILE.zip/file" target="_blank">The Coffin Of Andy And Leyley</a></li>
-        <li><a href="https://www.mediafire.com/file/3vnfpf2mb0516gz/Five_Night_At_Freddy%2527s_Into_The_pit_mod.apk/file" target="_blank">Fnaf Into The Pit</a></li>
-        <li><a href="https://www.mediafire.com/download/r54gqyb16ceuz6z" target="_blank">Max Payne 2</a></li>
-     <li><a href="https://www.mediafire.com/file/zqmoqlpfgllrldq/Path+of+the+Teal+Lotus+mobile.7z/file" target="_blank">Path of the Teal Lotus</a></li>
-     <li><a href="https://www.mediafire.com/file/valik38q7g8vlmb/OMORI-br-1.0.8.1.apk/file" target="_blank">Omori</a></li>
-     <li><a href="https://www.mediafire.com/file/3wpb4bzkmyaiadg/DontStarve_1.19.15.apk/file" target="_blanl">Dont Starve</a></li>
-     <li><a href="https://www.mediafire.com/file/d2w5oddnp4ryci2/Life_is_Strange%2528Unlocked%2529.zip/file" target="_blank">Life is Strange</a></a></li>
-     <li><a href="https://www.mediafire.com/download/0k10b2fxgucjpy6" target="_blank">The Amazing Spider Man 2</a></li>
-     <li><a href="https://www.mediafire.com/file/k6eqxureiq38qfi/Spidey-Hub_No+Cheat.apk/file?dkey=umi7t0fy63a&r=295" target="_blank">Spider Man Gameloft</a></li>
-     <li><a href="https://www.mediafire.com/download/p9al042c949ayau" target="_blank">Iron Man 3 Gameloft</a></li>
-     <li><a href="https://www.mediafire.com/file/ww214s57immgmbr/TDKR-v1.1.6-MAX+GFX-Ultra+Widescreen+Bem+vindo+ao+futuro+%2860FPS%29.apk" target="_blank">Batman Cavaleiro das Trevas</a></li>
-     <li><a </li>
-       <li><a href="https://www.mediafire.com/file/erbqov1bldeo6ot" target="_blank">GTA Liberty City Stories</a></li>
-       <li><a href="https://www.mediafire.com/file/78m5jcpbk9zj3ld/Geometry-Dash-GamerShow-BR[v2.207].apk/file" target="_blank">Geometric Dash Completo</a></li>
-       <li><a href="https://www.mediafire.com/file/88696x1rv5291ty/Football_Simulator_De_Arbitro_v2.55.apk/file" target="_blank">Referee Simulator</a></li>
-       <li><a href="https://www.mediafire.com/file/pbqcudodtk53wmh/lego-jurassic-world.apk/file" target="_blank">Lego Jurassic World</a></li>
-       <li><a href="https://www.mediafire.com/file/h6cobaoje2es8lr/Friday+Night+Funkin.apk/file" target="_blank">Friday Night Funkin</a></li>
-       <li><a href="https://www.mediafire.com/file/xcios6v40zveqit/The+Escapists+[PT-BR].apk/file" target="_blank">The Escapists</a></li>
-       <li><a href="https://www.mediafire.com/file/q1pb6xs3rljk63g/NARUTO+Ultimate+Ninja+STORM.apk/file" target="_blank">Naruto Ultimate Ninja Storm</a></li>
-       <li><a href="https://www.mediafire.com/file/35py3t7y5eg7mes/LEGO-MARVEL-Super-Heroes.apk/file" target="_blank">Lego Marvel Super Heroes</a></li>
-       <li><a href="https://www.mediafire.com/file/z292p1gi7t2gm2k/Resident+Evil+4.apk/file" target="_blank">Resident Evil 4</a></li>
-       <li><a href="https://www.mediafire.com/file/m258bbpruhkeq43/Teen_titans_go_2.zip/file" target="_blank">Jovens Titãs Go!</a></li>
-       <li><a href="https://www.mediafire.com/file/9zrepkxhath31t1/HALF_LIFE_2_APK%2BDATA_PT-BR.zip/file" target="_blank">Half Life 2</a></li>
-       <li><a href="https://www.mediafire.com/file/k7bczudzcqcbz93/Pascals_Wagner_Mod_1.6.7.apk/file" target="_blank">Pascal Wagner</a></li>
-       <li><a href="https://www.mediafire.com/file/bqwqjuiychqt97d/Supertype-2.052.05-GamerShowBR.apk/file" target="blank">SuperType</a></li>
-       <li><a href="https://www.mediafire.com/file/mm1d9ai1vnk7gyw/PoppyMobile-v1.0.8_By_Fox_Signer.apk/file" target="_blank">Poppy Playtime 1</a></li>
-       <li><a href="https://www.mediafire.com/file/qh6y2umgrnr1y73/poppy-playtime-chapter-2_1.2-foxsigner.apk/file" target="_blank">Poppy Playtime 2</a></li>
-       <li><a href="https://www.mediafire.com/file/u5qjhdn8lgwumne/Poppy_Playtime_Chapter_3_GamerShowBR.apk/file" target="_blank">Poppy Playtime 3</a></li>
-       <li><a href="https://www.mediafire.com/file/9tjnrwyzxpjg094/?dkey=9tjnrwyzxpjg094" target="_blank">Sonic Unleashed</a></li>
-       <li><a href="https://www.mediafire.com/file/n71y88wi4wnf7o5/little-nightmares-v112.apk/file" target="_blank">Little Nightmares</a></li>
-       <li><a href="https://www.mediafire.com/file/bf2oisd76s1q8lc/GTA+San+Andreas+The+Definitive+Edition+-+SEM+NETFLIX.apks/file" target="_blank">GTA SA Definitive Edition</a></li>
-       <li><a href="https://www.mediafire.com/file_premium/h4h884ffkuystye/GTA-VC-DE-1.83.44255649-full-apkvision.apk/file" target="_blank">GTA VC Definitive Edition</a></li>
-       <li><a href="https://www.mediafire.com/file/1ead29kxao2qk1f/GTA+3+DE+BY+STRANGE+MODS.zip/file" target="_blank">GTA 3 Definitive Edition</a></li>
-       <li><a href="https://www.mediafire.com/file/x6uvsamtwtubmg4/PPSSPP-Gold_v1.18.1.apk/file" target="_blank">PPSSPP GOLD</a></li>
-       <li><a href="https://www.mediafire.com/file/ncdrmzd6228ttdv/GTA_Vice_City_Stories_ptbr.rar/file" target="_blank">GTA VC Stories (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/3zmspqbr2l01j5r/Kingdom-Two-Crowns_by_GamerShow.apk/file" target="_blank">Kingdom Two Crowns</a></li>
-       <li><a href="https://www.mediafire.com/file/7hwnq3iwruyz768/PapersPlease.GamerShowBR.apk/file" target="_blank">Papers, Please</a></li>
-       <li><a href="https://www.mediafire.com/file/4tr6ysihp2mam4e/Skullgirls_GamerShow_BR.apk/file" target="_blank">Skullgirls</a></li>
-       <li><a href="https://www.mediafire.com/file/npwoiwctuchyheo/Grid+Autosport+Editionv1.10.2+GamerShowBR.xapk/file" target="_blank">Grid Autosport Edition</a></li>
-       <li><a href="https://www.mediafire.com/download/4vo1bhehsa0449q%7C%7C" target="_blank">Pabllo Vittar Forest of Horror</a></li>
-       <li><a href="https://www.mediafire.com/file/vjdpa0ptjru3uvq/ProjetoReloAndroid_030322.apk/file" target="_blank">Projeto Relo Android</a></li>
-       <li><a href="https://www.mediafire.com/file/k5zcbdif607x6kx/Skul+The+Hero+Slayer_1.0.0_Apkhihe.net.apk/file" target="_blank">Skul The Hero Slayer</a></li>
-       <li><a href="https://www.mediafire.com/file/vl5e90tid4lxmrz/Goat_Simulator_GamerShow_BR.apk/file" target="_blank">Goat Simulator</a></li>
-       <li><a href="https://www.mediafire.com/file/a0gav0z44v4vdco/Bendy_and_the_Ink_Machine_BY_GamerShow.rar/file" target="_blank">Bendy And The Ink Machine</a></li>
-       <li><a href="https://www.mediafire.com/file/cpvvwuo7sos4urj/Good+Pizza,+Great+Pizza+v.5.9.0+By+GamerShow.rar/file" target="_blank">Good Pizza, Great Pizza</a></li>
-       <li><a href="https://www.mediafire.com/file/gygqtfvmlya6xki/SLAY-THE-SPIRE-APK-2.38-ANDROPALACE.ORG.apk/file" target="_blank">Slay The Spire</a></li>
-       <li><a href="https://www.mediafire.com/file/zx4mah3vh6wpa7z/Aethersx2+BIOS.zip/file" target="_blank">Aethersx2 + BIOS</a></li>
-       <li><a href="https://www.mediafire.com/file/fd0lr6vuo2mo7jr/BOMBA+MIX+ITAQUI-RS+MUNDIAL+DE+CLUBES+2025+CORRECAO.rar/file" target="_blank">Bomba Patch 2025 (Aethersx2)</a></li>
-       <li><a href="https://www.mediafire.com/file/i3mgqytybdf7t3x/BLACK_PTBR.rar/file" target="blank">Black PT-BR (Aethersx2)</a></li>
-       <li><a href="https://www.mediafire.com/file/pbbv42novqnmb5n/eFootBall+25+Guh7Psp+FL+Link+Godcardoso.7z/file" target="_blank">Efootball 2025 (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/sz1ej6bzsk8o9rk/L3g0B4Tptbrpsp.rar/file" target="_blank">Lego Batman The Videogame (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/bav19w0hxmig3a6/Kingdom+&+Lords.zip/file" target="_blank">Kingdom & Lords (Orginal e MOD)</a></li>
-       <li><a href="https://www.mediafire.com/file/pefnapqbkghnsgm/Patch_1.21.62__%252832-BITS%2529.apk/file" target="_blank">Minecraft Patched 1.21.62 (32 bits)</a></li>
-       <li><a href="https://www.mediafire.com/file/k4odsny8k7onbeg/Patch_1.21.62__%252864-BITS%2529.apk/file" target="_blank">Minecraft Patched 1.21.62 (64 bits)</a></li>
-       <li><a href="https://www.mediafire.com/file/oukg5iqx2ua0w39/Zombie+Nigth+Terror.zip/file" target="_blank">Zombie Night Terror</a></li>
-       <li><a href="https://www.mediafire.com/file/6uofyzgl2lcsi1n/ZArchiver_Pro.apk/file?dkey=ja7oti3804f&r=1542&dkey=6uofyzgl2lcsi1n" target="_blank">ZArchiver Pro</a></li>
-       <li><a href="https://www.mediafire.com/file/qvlnekglsvfepr3/Youtubers_Life_OMG.zip/file" target="_blank">Youtubers Life</a></li>
-       <li><a href="https://www.mediafire.com/file/wh93xwj79sxxt0q/Youtubers+Life+2+v1.3.3+[VENF+DROID].apk/file" target="_blank">Youtubers Life 2</a></li>
-       <li><a href="https://www.mediafire.com/file/s5wnjgf1cvrili0/GRIS-APK+DATA-1.0.0.rar/file" target="_blank">Gris</a></li>
-       <li><a href="https://www.mediafire.com/file/scacgow7sor6rg8/PSPG0WGHSTDUBPTBR.rar/file" target="_blank">God Of War Ghost of sparta (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/eb55gsyf8zq0u5x/g0wc0optbrpsp.rar/file" target="_blank">God of War Chains Of Olympus (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/97ktu722hv3y4r3/FIFA_VOLTA_2022_PPSSPP_%2528_LINK_GILA_GAME_%2529.rar/file?dkey=odii6w4v2qy&r=1349#" target="_blank">FIFA Street 2 (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/r8m8dsnu47bhdbc/Supermarket+Simulator+v1.0.16+Odranoel.apk/file?dkey=zsiwppzxnsi&r=133" target="_blank">Supermarkt Simulator (MOD)</a></li>
-       <li><a href="https://www.mediafire.com/file/oq2rfdt8zlvekc5/BEN10_PROTETOR_DA_TERRA_DUBLADO_PSP.rar/file" target="_blank">Ben 10 Protector Of Earth Dublado (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/5k5t1spojf7prx9/BEN_10_ULTIMATE_ALIEN_COSMIC_DESTRUCTION_BY_MMGAMER7755.7z/file" target="_blank">Ben 10 Ultimate Alien Cosmic (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/0ajeo1gcmfmtwgy/Ben+10+Vilgax+Attack.7z/file" target="_blank">Ben 10 Vilgax Attack (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/w2wjm3p4fvuoizl/Bluecord_2.3.apk/file" target="_blank">Bluecord 2.3</a></li>
-       <li><a href="https://www.mediafire.com/file/r74ael6d1wor4g4/Minecraft_1.14.60_xbox.apk/file?dkey=r74ael6d1wor4g4" target="_blank">Minecraft 1.14</a></li>
-       <li><a href="https://www.mediafire.com/file/tnov6zp0wuad3dg/MCPE_1.16.100.57_PARSE_ERROR_FIXED_BY_The_gamer_Tap.apk/file" target="_blank">Minecraft 1.16</a></li>
-       <li><a href="https://www.mediafire.com/file/ols2g774n9p8dvm/Cosmic-Shake-v1-1-0by+GamerShow+BR.apk/file" target="_blank">Bob Esponja Cosmic Shake</a></li>
-       <li><a href="https://www.mediafire.com/file/4ogozw0llvbcs4q/Strawberry+Berry+Rush+unlimited.apk/file" target="_blank">Moranguinho: Berry Rush (MOD)</a></li>
-       <li><a href="https://www.mediafire.com/file/z2ykmuwhzzqcdzg/Bird_Alone_GamerShow_BR.apk/file" target="_blank">Bird Alone</a></li>
-       <li><a href="https://www.mediafire.com/file/bafkcjgt1qyfdgm/Stay+Out+of+the+House+GamerShowBR.apk.crdownload/file" target="_blank">Stay Out Of The House</a></li>
-       <li><a href="https://www.mediafire.com/file/4otl3bfwsr7ckoe/Potion-Permit-v1.46-GamerShow-BR.apk/file" target="_blank">Potion Permit</a></li>
-       <li><a href="https://www.mediafire.com/file/ygjjlvy272kqb2m/Survivalcraft+2+2.3.10.0+by+GamerShow+BR.apk/file" target="_blank">SurvivalCraft 2</a></li>
-       <li><a href="https://www.mediafire.com/file/n8k946rmpx6qevy/HumanFallFlat-v1.14+GamerShowBR.apk/file" target="_blank">Human Fall Flat</a></li>
-       <li><a href="https://www.mediafire.com/file/9feurqfaifek0f2/To_The_Moon_By_GamerShow.rar/file" target="_blank">To The Moon</a></li>
-       <li><a href="https://www.mediafire.com/file/s5iuyt6qemdwf06/60_seconds_mobile_GamerShow/file" target="_blank">60 Seconds</a></li>
-       <li><a href="https://www.mediafire.com/file_premium/pbo5d98c9i54fk2/s3mp.apk/file" target="_blank">Slendytubbies 3 Multiplayer</a></li>
-       <li><a href="https://www.mediafire.com/file/jnl6n124b97h7sa/Slendytubbies_3_V1_295_%2832bit%29.zip/file" target="_blank">Slendytubbies 3 (32 bits)</a></li>
-       <li><a href="https://www.mediafire.com/file/249yxzi56wn17r6/Slendytubbies_3_V1_295_%252864bit%2529.zip/file" target="_blank">Slendytubbies 3 (64 bits)</a></li>
-       <li><a href="https://www.mediafire.com/file/kgcrqf1q1l9onrg/Littlest+Pet+Shop.apk/file" target="_blank">Littlest Pet Shop (MOD)</a></li>
-       <li><a href="https://www.mediafire.com/file/oo8cl0u9igwggkg/angry-birds-rio-2-6-13.apk/file" target="_blank">Angry Birds Rio</a></li>
-       <li><a href="https://www.mediafire.com/file/xtz2a3mhxg5q9t7/sonic-exe.apk/file" target="_blank">Sonic exe</a></li>
-       <li><a href="https://www.mediafire.com/file/5rnqo9ke6qzj64m/Wonder_Zoo_%2528MOD_%2526_ORIGINAL%2529.7z/file" target="_blank">Wonder Zoo (MOD & ORIGINAL)</a></li>
-       <li><a href="https://www.mediafire.com/file/2d7ptvf69u19vc5/Little+Big+City+(MOD+&+ORIGINAL).7z/file" target="_blank">Little Big City (MOD & ORIGINAL)</a></li>
-       <li><a href="https://www.mediafire.com/file/sy83knmj9zvydfk/A1-2_%255BEsp_-_ISO%255D.rar/file" target="_blank">Assassin's Creed Bloodlines PT-BR (PPSSPP)</a></li>
-       <li><a href="https://www.mediafire.com/file/fm1913uece1c9yy/Minecraft+1.19.81.apk/file" target="_blank">Minecraft 1.19.81</a></li>
-       <li><a href="https://www.mediafire.com/file/hzwkr8fl72lzi8w/PPCine.apk/file" target="_blank">PPCine</a></li>
-        
-    </ul>
+  <section id="pdfs" class="secao">
+    <h2>PDFs</h2>
+    <input type="text" placeholder="Pesquisar PDFs..." onkeyup="filtrar('pdfs')">
+    <div class="item"><a href="https://drive.google.com/file/d/14LHISp1XQ_5A4TBMqtcQLROZ5rCuvvfe/view?usp=drivesdk" target="_blank">As 48 Leis do Poder</a></div>
+    <div class="item"><a href="https://drive.google.com/file/d/1SpxWVBhNL3D61SSGbcg8CnaB1fFQoURa/view?usp=drivesdk" target="_blank">Vinland Saga Vol.15</a></div>
+    <div class="item"><a href="https://drive.google.com/file/d/0B7Kmav1S0xnaNVlOWDkyMHc4OUU/view?usp=drivesdk&resourcekey=0-MFJzF_TZUmk0TduI6Z4LrA" target="_blank">Manual de Persuasão do FBI</a></div>
+    <div class="item"><a href="https://drive.google.com/file/d/0B3GQrRvm4KXOSDlWeGQ0cl9FQU0/view?usp=drivesdk&resourcekey=0-zzMFG23_beBEuAHb5gFm4g" target="_blank">Assim Falou Zaratustra</a></div>
+    <div class="item"><a href="https://drive.google.com/file/d/14Scg8wzlCk3EbcDGtmTdde92OGdwLWOL/view?usp=drivesdk" target="_blank">Guerra Fria - John Lewis</a></div>
+<div class="item"><a href="https://drive.google.com/file/d/14_d06MezCtT17SbnUhvvtWFC25VA3cxY/view?usp=drivesdk" target="_blank">A Segunda Guerra Mundial: Os 2.174 Dias Que Mudaram O Mundo</a></div>
+<div class="item"><a href="https://drive.google.com/file/d/14YUkA9LlTn4fQP6kjogac3h8JqS1WX-6/view?usp=drivesdk" target="_blank">A Primeira Guerra Mundial: 1.590 Dias Que Transformaram o Mundo.pdf</a></div>
+<div class="item"><a href="https://drive.google.com/file/d/155ycmEvtwK8tJXcL_ssPxvmWwnvB9KGY/view?usp=drivesdk" target="_blank">A Divina Comédia</a></div>
+<div class="item"><a href="https://drive.google.com/file/d/155UTpAjI2dlJlWf-zG3zupD5ZdOIkGrm/view?usp=drivesdk" target="_blank">O Homem e Seus Símbolos</a></div>
+<div class="item"><a href="https://drive.google.com/file/d/14zJK1EREeQSyaVzQ37OJCIwAd-kUVnHU/view?usp=drivesdk" target="_blank">Meridiano de Sangue</a></div>
+<div class="item"><a href="https://drive.google.com/file/d/14gHrT3RJ_h_gMvTp-wyDs3NtatFBKWQO/view?usp=drivesdk" target="_blank">A Menina Que Roubava Livros</a></div>
+<div class="item"><a href="https://drive.google.com/file/d/14ibjBwMMiJ09Evz38aF5ff2MrtoNArJM/view?usp=drivesdk" target="_blank">D&D Jogador</a></div>
+<div class="item"><a href="https://drive.google.com/file/d/14jHg9j7JeWPSpjFGvJPiCez9nln8ypdG/view?usp=drivesdk" target="_blank">Atlas - Economia e Cultura Brasileira</a></div>
+  </section>
 
-    <script>
-        function searchGames() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById('search');
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("gameList");
-            li = ul.getElementsByTagName('li');
-            
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
-    </script>
+  <section id="apps" class="secao">
+    <h2>APPs</h2>
+    <input type="text" placeholder="Pesquisar apps..." onkeyup="filtrar('apps')">
+    <div class="item"><a href="https://www.mediafire.com/file/hzwkr8fl72lzi8w/PPCine.apk/file" target="_blank">PPCine</a></div>
+  </section>
 
-<div class="contact">
-    <h6>Link expirado, sugestões de novos jogos ou APK não funcionando? Entre em contato comigo:
-    suppordevworldgames@gmail.com</h6>
-</div>
+  <footer>
+    Feito com carinho para você!
+  </footer>
 
+  <script>
+    function mostrar(secaoId) {
+      document.querySelectorAll('.secao').forEach(secao => {
+        secao.classList.remove('ativo');
+      });
+      document.getElementById(secaoId).classList.add('ativo');
+    }
+
+    function filtrar(secaoId) {
+      let input = document.querySelector(`#${secaoId} input`).value.toLowerCase();
+      let itens = document.querySelectorAll(`#${secaoId} .item`);
+      itens.forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(input) ? "block" : "none";
+      });
+    }
+
+    function trocarTema() {
+      document.body.classList.toggle("light");
+      const label = document.getElementById("temaLabel");
+      if (document.body.classList.contains("light")) {
+        label.textContent = "Tema ☀️";
+      } else {
+        label.textContent = "Tema 🌙";
+      }
+    }
+
+    // Exibir seção inicial por padrão (opcional)
+    mostrar('jogos');
+  </script>
 </body>
 </html>
